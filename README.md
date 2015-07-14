@@ -17,4 +17,4 @@ Example:
 python IPH.py -i file.csv -p -o file.csv 
 
 Limitations:
-Can not go through Excel workbooks as of yet. Also, the way it finds IPs is rather inefficient, but it gets the job done. Working on making it a better tool.
+Can not go through Excel workbooks as of yet (working on it). Also, the way it finds IPs is rather inefficient, but it gets the job done.
