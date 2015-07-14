@@ -1,6 +1,3 @@
-#BUGS FIXES NEEDED: the pcount method used is unreliable. It counts the number of periods in order to tell which octet
-#it's on, but if there is an incomplete IP like 1.2. and then a cnother IP like 192.168.1.1 down the line, then those
-#two will get jumbled together
 import argparse
 parser = argparse.ArgumentParser(prog="IPSorter",usage="%(prog)s [options]",description="Finds IP addresses, outputs a CSV file of your choosing (private, public, or both)\n"+"Example: -p -i file.csv -o file2.csv")
 parser.add_argument("-p",action='store_true',help ="gets private") #flag types... 'store_true' gives flag a default value (of False) so that it doesn't expect an argument
