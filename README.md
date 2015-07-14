@@ -3,7 +3,7 @@ Looking to find IPs (public and/or private) in a document containing mixed data?
 
 This tool may benefit you. 
 
-How does it work?
+How do you run it?
 Feed the file you want IPH to hunt through. Specify whether you want IPH to find private IPs, public IPs, or both. Designate an output file for IPH.
 
 Flags:
