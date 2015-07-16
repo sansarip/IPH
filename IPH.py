@@ -1,4 +1,5 @@
 import argparse
+from xlrd import *
 parser = argparse.ArgumentParser(prog="IPSorter",usage="%(prog)s [options]",description="Finds IP addresses, outputs a CSV file of your choosing (private, public, or both)\n"+"Example: -p -i file.csv -o file2.csv")
 parser.add_argument("-p",action='store_true',help ="gets private") #flag types... 'store_true' gives flag a default value (of False) so that it doesn't expect an argument
 parser.add_argument("-u",action='store_true',help="gets public")
@@ -7,43 +8,52 @@ parser.add_argument("-o",help="type output file name, ex: file.csv")
 parser.add_argument("-i",help="type input file name, ex: file.csv")
 args = parser.parse_args() #parameters passed in after flag
 def IP_Checker(ipList): #checks if there are sufficient octets in the IP
-    octetCount = 0
-    for i in ipList:
-        if i != '.':
-            octetCount += 1
-    if octetCount >= 4:
-        return True
-    else:
-        return False
-def IP_Formatter(ipList): #checks if public IP
-    ipFormatList = []
-    octet = ''
-    index = -1
-    for i in ipList:
-        index +=1
-        if i != '.':
-            octet += str(i)
-        if i == '.':
-            ipFormatList.append(octet)
-            octet = ''
-            ipFormatList.append(i)
-        if index+1 == len(ipList): #appends the last octet
-            ipFormatList.append(octet)
-    return ipFormatList
-def publicIP_Checker(ipList):
-    ipFormatList = IP_Formatter(ipList)
-    if int(ipFormatList[0]) == 192:
-        if int(ipFormatList[2]) == 168:
+    try:
+        octetCount = 0
+        for i in ipList:
+            if i != '.':
+                octetCount += 1
+        if octetCount >= 4:
+            return True
+        else:
             return False
-    elif int(ipFormatList[0]) == 172:
-        if int(ipFormatList[2]) in range(16,32):
+    except:
+        print("IP_Checker Exception")
+def IP_Formatter(ipList): #checks if public IP
+    try:
+        ipFormatList = []
+        octet = ''
+        index = -1
+        for i in ipList:
+            index +=1
+            if i != '.':
+                octet += str(i)
+            if i == '.':
+                ipFormatList.append(octet)
+                octet = ''
+                ipFormatList.append(i)
+            if index+1 == len(ipList): #appends the last octet
+                ipFormatList.append(octet)
+        return ipFormatList
+    except:
+        print("IP_Formatter Exception")
+def publicIP_Checker(ipList):
+    try:
+        ipFormatList = IP_Formatter(ipList)
+        if int(ipFormatList[0]) == 192:
+            if int(ipFormatList[2]) == 168:
+                return False
+        elif int(ipFormatList[0]) == 172:
+            if int(ipFormatList[2]) in range(16,32):
+                return False
+            else:
+                return True
+        elif int(ipFormatList[0]) == 10:
             return False
         else:
             return True
-    elif int(ipFormatList[0]) == 10:
-        return False
-    else:
-        return True
+    except:
+        print("publicIP_Checker Exception")
 def IP_Finder():
     listAll = [] #used to store allText so that it can be iterated
     ipList = [] #stores an IP or w/e comes its way, is then used to check if it contains a valid IP, and it is reset after each IP, line 110
@@ -56,11 +66,26 @@ def IP_Finder():
     indexList = [] #stores the index for '.'
     check = bool
     falsecount=0 #counts each time a unit after a '.' from range [2,5] is not a period, line
-    if args.i != None:
+    if args.i != None and "xls" not in (args.i).split('.')[-1]:
         f = open(str(args.i)) #gets the input file name from -i flag
+    elif "xls" in (args.i).split('.')[-1]:
+        aString = open_workbook(args.i)
+        f = open("csvFile.csv","wb")
+        for s in aString.sheets():
+            f.write(bytes('Sheet:','utf-8')+bytes(s.name,'utf-8')+bytes("\n",'utf-8')) #writes sheet name
+            for row in range(s.nrows):
+                values = []
+                for col in range(s.ncols):
+                    values.append(s.cell(row,col).value)
+                f.write(bytes(str(values),'utf-8')) #writes the values per sheet to csvFile
+        f.close()
+        f = open("csvFile.csv")
     else:
         print("NO FILE INPUT")
-    allText = f.read()
+    try:
+        allText = f.read()
+    except Exception as e:
+        print("READING FAILED: "+str(e))
     for i in allText: #appends all the text into a list, character by character
         listAll.append(i)
     for i in listAll: #iterates through the list-form of the text
