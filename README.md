@@ -23,7 +23,7 @@ Example:
 python IPH.py -i file.csv -p -o file.csv 
 
 Update 7.16.2015:
-This tool now accepts Excel workbook files. In order to have this feature work, you must import the xlrd library. Installation of the library can be found on page 5 of this pdf document http://www.simplistix.co.uk/presentations/python-excel.pdf
+This tool now accepts Excel workbook files. In order to have this feature work, you must import the xlrd library. Installation of the library can be found on page 5 of this pdf document: http://www.simplistix.co.uk/presentations/python-excel.pdf
 
 Note:
 It can only read Excel workbook files, but it CAN'T write Excel files. So, you can gather IP addresses from multiple sheets of a workbook without turning each sheet into a csv file to do so, and then you can output all IPs you've gathered into a single file such as a csv file.
