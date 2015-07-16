@@ -1,5 +1,4 @@
 import argparse
-from xlrd import *
 parser = argparse.ArgumentParser(prog="IPSorter",usage="%(prog)s [options]",description="Finds IP addresses, outputs a CSV file of your choosing (private, public, or both)\n"+"Example: -p -i file.csv -o file2.csv")
 parser.add_argument("-p",action='store_true',help ="gets private") #flag types... 'store_true' gives flag a default value (of False) so that it doesn't expect an argument
 parser.add_argument("-u",action='store_true',help="gets public")
@@ -69,6 +68,7 @@ def IP_Finder():
     if args.i != None and "xls" not in (args.i).split('.')[-1]:
         f = open(str(args.i)) #gets the input file name from -i flag
     elif "xls" in (args.i).split('.')[-1]:
+        from xlrd import * #imports the needed library to read .xlsx files
         aString = open_workbook(args.i)
         f = open("csvFile.csv","wb")
         for s in aString.sheets():
