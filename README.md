@@ -23,7 +23,7 @@ Example:
 python IPH.py -i file.csv -p -o file.csv 
 
 Update 7.16.2015:
-This tool now accepts Excel workbook files. In order to have this feature work, you must install the xlrd library. Installation of the library can be found on page 5 of this pdf document:
+This tool now accepts Excel workbook files. In order to have this feature work, you must install the xlrd library. Simple instructions regarding the installation of the library can be found on page 5 of this pdf document:
 
 http://www.simplistix.co.uk/presentations/python-excel.pdf
 
