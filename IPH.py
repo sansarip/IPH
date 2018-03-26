@@ -246,7 +246,7 @@ def IP_Finder():
 def PublicIP_Result():
     strIP_List = IP_Finder()
     if args.o:
-        f = open(str(args.o),'wb')                                                                                      # creates a new file with the name given by -o flag... 'wb' tells it to create if not existing and overwrite if existing
+        f = open(str(args.o),'w')                                                                                      # creates a new file with the name given by -o flag... 'wb' tells it to create if not existing and overwrite if existing
     else:
         try:
             raise Exception
@@ -254,7 +254,7 @@ def PublicIP_Result():
             print("NO FILE OUTPUT GIVEN: ADD FLAG -o")
     try:
         for i in strIP_List:
-            f.write(bytes(i+'\n','utf-8'))
+            f.write(i + "\n")
         f.close()
         print('\n'+ str(args.o)+" file created")
     except:
